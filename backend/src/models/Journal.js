@@ -15,6 +15,11 @@ const journalSchema = new mongoose.Schema({
   images: {
     type: [String], // Cloudinary URLs later
     default: [],
+
+  aiEnhancement: {
+  type: String,
+  default: "",
+},
   },
 
 user: {

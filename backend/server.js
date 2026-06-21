@@ -2,11 +2,14 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./src/config/db");
+const uploadRoutes =require("./src/routes/uploadRoutes");
+const aiRoutes =require("./src/routes/aiRoutes");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+app.use("/api/upload",uploadRoutes);
+app.use("/api/ai",aiRoutes);
 
 const PORT = 5000;
 
