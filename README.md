@@ -217,7 +217,10 @@ Pull requests are welcome. For major changes, open an issue first.
 
 ## License
 
-ISC
+MIT License
+Copyright (c) 2026 Nandhini Hariraman
+
+Permission is hereby granted...
 
 ---
 
