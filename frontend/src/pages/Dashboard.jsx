@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 function Dashboard() {
   const navigate = useNavigate();
 
   const [journals, setJournals] = useState([]);
-
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [location, setLocation] = useState("");
@@ -130,112 +130,107 @@ function Dashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/");
-  };
-
   return (
-    <div>
-      <h1>🌍 WanderLand AI</h1>
+    <>
+      <Navbar />
 
-      <button onClick={handleLogout}>
-        Logout
-      </button>
+      <div className="container mt-4">
+        <div className="card p-4 shadow-sm mb-4">
+          <h2 className="mb-4">
+            {editingId
+              ? "Update Journal"
+              : "Create Journal"}
+          </h2>
 
-      <h2>
-        {editingId
-          ? "Update Journal"
-          : "Create Journal"}
-      </h2>
+          <input
+            type="text"
+            className="form-control mb-3"
+            placeholder="Title"
+            value={title}
+            onChange={(e) =>
+              setTitle(e.target.value)
+            }
+          />
 
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
+          <textarea
+            className="form-control mb-3"
+            rows="4"
+            placeholder="Content"
+            value={content}
+            onChange={(e) =>
+              setContent(e.target.value)
+            }
+          />
 
-      <br />
-      <br />
+          <input
+            type="text"
+            className="form-control mb-3"
+            placeholder="Location"
+            value={location}
+            onChange={(e) =>
+              setLocation(e.target.value)
+            }
+          />
 
-      <textarea
-        placeholder="Content"
-        value={content}
-        onChange={(e) =>
-          setContent(e.target.value)
-        }
-      />
-
-      <br />
-      <br />
-
-      <input
-        type="text"
-        placeholder="Location"
-        value={location}
-        onChange={(e) =>
-          setLocation(e.target.value)
-        }
-      />
-
-      <br />
-      <br />
-
-      <button
-        onClick={
-          editingId
-            ? updateJournal
-            : createJournal
-        }
-      >
-        {editingId
-          ? "Update Journal"
-          : "Create Journal"}
-      </button>
-
-      <hr />
-
-      <h2>My Journals</h2>
-
-      {journals.length === 0 ? (
-        <p>No journals found</p>
-      ) : (
-        journals.map((journal) => (
-          <div
-            key={journal._id}
-            style={{
-              border: "1px solid black",
-              margin: "10px",
-              padding: "10px",
-            }}
+          <button
+            className="btn btn-primary"
+            onClick={
+              editingId
+                ? updateJournal
+                : createJournal
+            }
           >
-            <h3>{journal.title}</h3>
-            <p>{journal.content}</p>
-            <p>📍 {journal.location}</p>
+            {editingId
+              ? "Update Journal"
+              : "Create Journal"}
+          </button>
+        </div>
 
-            <button
-              onClick={() => {
-                setTitle(journal.title);
-                setContent(journal.content);
-                setLocation(journal.location);
-                setEditingId(journal._id);
-              }}
-            >
-              Edit
-            </button>
+        <h2 className="mb-3">My Journals</h2>
 
-            <button
-              onClick={() =>
-                deleteJournal(journal._id)
-              }
+        {journals.length === 0 ? (
+          <p>No journals found</p>
+        ) : (
+          journals.map((journal) => (
+            <div
+              key={journal._id}
+              className="card mb-3 shadow-sm"
             >
-              Delete
-            </button>
-          </div>
-        ))
-      )}
-    </div>
+              <div className="card-body">
+                <h4>{journal.title}</h4>
+
+                <p>{journal.content}</p>
+
+                <p className="text-muted">
+                  📍 {journal.location}
+                </p>
+
+                <button
+                  className="btn btn-warning me-2"
+                  onClick={() => {
+                    setTitle(journal.title);
+                    setContent(journal.content);
+                    setLocation(journal.location);
+                    setEditingId(journal._id);
+                  }}
+                >
+                  Edit
+                </button>
+
+                <button
+                  className="btn btn-danger"
+                  onClick={() =>
+                    deleteJournal(journal._id)
+                  }
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </>
   );
 }
 
